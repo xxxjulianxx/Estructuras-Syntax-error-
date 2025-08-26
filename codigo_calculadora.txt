@@ -1,0 +1,126 @@
+def suma(a, b):
+    while b > 0:
+        a = a + 1
+        b = b - 1
+    while b < 0:
+        a = a - 1
+        b = b + 1
+    return a
+
+def resta(a, b):
+    while b > 0:
+        a = a - 1
+        b = b - 1
+    while b < 0:
+        a = a + 1
+        b = b + 1
+    return a
+
+def multiplicacion(a, b):
+    resultado = 0
+    negativo = False
+    if b < 0:
+        b = resta(0, b)
+        negativo = True
+    while b > 0:
+        resultado = suma(resultado, a)
+        b = resta(b, 1)
+    return resta(0, resultado) if negativo else resultado
+
+def division(a, b):
+    if b == 0:
+        return "Error: División por cero no permitida"
+    negativo = (a < 0) != (b < 0)
+    a = resta(0, a) if a < 0 else a
+    b = resta(0, b) if b < 0 else b
+    resultado = 0
+    while a >= b:
+        a = resta(a, b)
+        resultado = suma(resultado, 1)
+    return resta(0, resultado) if negativo else resultado
+
+def factorial(n):
+    if n < 0:
+        return "Error: No se puede calcular el factorial de un número negativo."
+    if n == 0 or n == 1:
+        return 1
+
+    resultado = 1
+    contador = n
+    while contador > 1:
+        resultado = multiplicacion(resultado, contador)
+        contador = resta(contador, 1)
+
+    return resultado
+
+def raiz_cuadrada(n):
+    if n < 0:
+        return "Error: No se puede calcular la raíz cuadrada de un número negativo."
+
+    resultado = 0
+    contador = 1
+    while n >= contador:
+        n = resta(n, contador)
+        contador = suma(contador, 2)
+        resultado = suma(resultado, 1)
+
+    return resultado
+
+def potencia(a, b):
+    if b < 0:
+        return "Error: No se soportan exponentes negativos."
+
+    resultado = 1
+    while b > 0:
+        resultado = multiplicacion(resultado, a)
+        b = resta(b, 1)
+
+    return resultado
+
+# Programa principal
+while True:
+    print("\n💡 Bienvenido a la Calculadora Especial 💡")
+    print("Marque la opción de la operación que desea hacer:")
+    print("1. Suma")
+    print("2. Resta")
+    print("3. Multiplicación")
+    print("4. División")
+    print("5. Factorial")
+    print("6. Raíz Cuadrada")
+    print("7. Potencia")
+    print("8. Salir")
+    print("-------------------------")
+    opcion = input("Seleccione una opción: ").strip()
+
+    if opcion == "8":
+        print("Saliendo del programa... ¡Gracias por usar la calculadora! 👋")
+        break
+
+    if opcion not in ["1", "2", "3", "4", "5", "6", "7"]:
+        print("❌ Opción no válida. Intente de nuevo.")
+        continue
+
+    try:
+        a = int(input("Ingrese el primer número: "))
+        if opcion in ["1", "2", "3", "4", "7"]:
+            b = int(input("Ingrese el segundo número: "))
+    except ValueError:
+        print("❌ Por favor, ingrese solo números enteros.")
+        continue
+
+    if opcion == "1":
+        resultado = suma(a, b)
+    elif opcion == "2":
+        resultado = resta(a, b)
+    elif opcion == "3":
+        resultado = multiplicacion(a, b)
+    elif opcion == "4":
+        resultado = division(a, b)
+    elif opcion == "5":
+        resultado = factorial(a)
+    elif opcion == "6":
+        resultado = raiz_cuadrada(a)
+    elif opcion == "7":
+        resultado = potencia(a, b)
+
+    print(f"✅ El resultado es: {resultado}")
